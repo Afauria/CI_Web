@@ -37,13 +37,13 @@ module.exports = withTypeScript(withCss({
         },
       }, ],
     })
-    //scss自动生成声明文件
+    //scss自动生成声明文件，参考：https://www.colabug.com/2303193.html
     const cssLoader = {
       loader: 'typings-for-css-modules-loader',
       options: {
         modules: true,
         importLoaders: 1,
-        camelCase: true,
+        camelCase: true,//加上这两个true，声明文件格式会改变
         namedExport: true,
         localIdentName: '[local]_[hash:base64:5]'
       },
