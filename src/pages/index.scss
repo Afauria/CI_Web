@@ -1,0 +1,45 @@
+.info {
+    &-title {
+        color: black;
+        margin-bottom: 16px;
+        font-weight: 500;
+        font-size: 18px;
+    }
+
+    &-label {
+        display: table-cell;
+        padding-bottom: 16px;
+        color: black;
+        // Line-height is 22px IE dom height will calculate error
+        line-height: 20px;
+        white-space: nowrap;
+
+        &::after {
+            position: relative;
+            top: -0.5px;
+            margin: 0 8px 0 2px;
+            content: ':';
+        }
+    }
+
+    &-value {
+        display: table-cell;
+        width: 100%;
+        color: rgba(0, 0, 0, .65);
+        padding-bottom: 16px;
+        line-height: 20px;
+    }
+}
+
+.actions {
+    margin-bottom: 16px;
+}
+
+// .others {
+//     color: #1890ff;
+//     cursor: pointer;
+// }
+
+// .others:hover {
+//     color: #40a9ff;
+// }

@@ -1,13 +1,11 @@
-export const componentBuildStatusMap = {
+export const modulesBuildStatusMap = {
   // 最后一次构建状态
   1: "尚未构建",
   2: "正在构建",
   3: "源码构建成功",
   4: "源码构建失败",
-  5: "静态库构建成功",
-  6: "静态库失败",
-  7: "组件集成成功",
-  8: "组件集成失败"
+  5: "组件集成成功",
+  6: "组件集成失败"
 };
 
 export const projectIntegrateStatusMap = {

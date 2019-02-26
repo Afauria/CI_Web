@@ -56,7 +56,7 @@ module.exports = withTypeScript(withCss({
       loader: MiniCssExtractPlugin.loader
     }
     config.module.rules.push({
-      test: /.scss$/,
+      test: /\.(scss|sass)$/,
       use: [miniCssLoader, cssLoader, sassLoader], //后面的loader先执行
       include: [path.resolve(__dirname, './src')]
     })
@@ -75,8 +75,8 @@ module.exports = withTypeScript(withCss({
     // }
     //提取css
     config.plugins.push(new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[id].css',
+      filename: 'static/[name].css',
+      chunkFilename: 'static/[id].css',
     }))
     // 在导入语句没带文件后缀时，Webpack 会自动带上后缀后去尝试访问文件是否存在。
     // config.resolve.extensions.push('.scss')

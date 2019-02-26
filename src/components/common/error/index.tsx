@@ -19,7 +19,7 @@ class Error extends React.Component<Props, any> {
   render404() {
     return (
       <div>
-        <p className={styles.title}>{'我不是404，但是我就是像404！'}</p>
+        <p className={styles.title}>{'404，找不到网页啦！'}</p>
         <div className={styles.erroimg404} />
       </div>
     )
