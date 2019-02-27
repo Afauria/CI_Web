@@ -1,13 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
 import AppCIContainer from "../../layouts/AppCIContainer";
-import { Table, Button, Divider, message } from "antd";
+import { Table, Button, Divider, message, Popconfirm } from "antd";
 import { ciModuleColumns } from "../../utils/tableKeys";
 // import { data } from "../mockData";
 import {
   getModuleListSuccess,
   getModuleList,
-  removeModule
+  removeModule,
+  modifyModule
 } from "../../redux/modules/cimodule";
 import styles from "../index.scss";
 import { request } from "../../lib/fetch";
@@ -20,7 +21,7 @@ const PAGE_NUM = 1;
 const PAGE_SIZE = 10;
 
 class CIModule extends React.Component<any> {
-  state = { modalVisible: false };
+  state = { modalVisible: false, selectRecord: {} };
   static async getInitialProps({ req, store }) {
     const data = await request.get("api/module/list", {
       pageNum: PAGE_NUM,
@@ -39,8 +40,8 @@ class CIModule extends React.Component<any> {
     this.props.dispatch(getModuleList({ pageSize, pageNum }));
   };
 
-  handleModalVisible = flag => {
-    this.setState({ modalVisible: flag });
+  handleModalVisible = (flag, record = {}) => {
+    this.setState({ modalVisible: flag, selectRecord: record });
   };
 
   handleRemove = moduleId => {
@@ -77,14 +78,19 @@ class CIModule extends React.Component<any> {
               <Divider type="vertical" />
               <a href="javascript:;">正式构建</a>
               <Divider type="vertical" />
-              <a href="javascript:;">编辑</a>
-              <Divider type="vertical" />
               <a
                 href="javascript:;"
-                onClick={() => this.handleRemove(record.moduleId)}
+                onClick={() => this.handleModalVisible(true, record)}
               >
-                删除
+                编辑
               </a>
+              <Divider type="vertical" />
+              <Popconfirm
+                title="确定删除？"
+                onConfirm={() => this.handleRemove(record.moduleId)}
+              >
+                <a href="javascript:;">删除</a>
+              </Popconfirm>
             </span>
           );
         }
@@ -128,6 +134,7 @@ class CIModule extends React.Component<any> {
           modalVisible={modalVisible}
           handleModalVisible={this.handleModalVisible}
           handleRefresh={this.handleRefresh}
+          record={this.state.selectRecord}
         />
       </AppCIContainer>
     );

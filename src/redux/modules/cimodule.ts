@@ -70,6 +70,9 @@ export const addModule = (data, success, error) =>
 export const removeModule = (data, success, error) =>
   postPipe("api/module/remove", data, success, error);
 
+export const modifyModule = (data, success, error) =>
+  postPipe("api/module/modify", data, success, error);
+  
 const postPipe = (url, data, success, error) => {
   from(request.post(url, data))
     .pipe(

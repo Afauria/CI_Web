@@ -23,7 +23,6 @@ const ajax = method => (url, body, opts = options) => {
       if (!success || code == -1) {
         return Promise.reject(msg);
       }
-
       return Promise[["reject", "resolve"][+(200 <= status && status < 400)]](
         data
       );

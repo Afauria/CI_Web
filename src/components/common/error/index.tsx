@@ -36,7 +36,6 @@ class Error extends React.Component<Props, any> {
 
   renderImg() {
     const { status } = this.props
-
     switch (status) {
       case 403:
         return this.render403()
