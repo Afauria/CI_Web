@@ -1,5 +1,5 @@
 import { Divider } from "antd";
-import { modulesBuildStatusMap, projectBuildStatusMap } from "./statusMap";
+import { moduleBuildStatusMap, projectBuildStatusMap } from "./statusMap";
 import {formatTime} from './timeFormat'
 export const user = [
   {
@@ -53,7 +53,7 @@ export const ciModuleColumns = [
     title: "状态",
     dataIndex: "buildStatus",
     key: "buildStatus",
-    render: (text, record) => <span>{modulesBuildStatusMap[text]}</span>
+    render: (text, record) => <span>{moduleBuildStatusMap[text]}</span>
   },
   {
     title: "上次操作时间",
@@ -98,23 +98,18 @@ export const ciProjectColumns = [
     title: "集成状态",
     dataIndex: "integrateStatus",
     key: "integrateStatus",
-    render: (text, record) => <span>{modulesBuildStatusMap[text]}</span>
+    render: (text, record) => <span>{projectBuildStatusMap[text]}</span>
+  },
+  {
+    title: "上次操作时间",
+    dataIndex: "gmtUpdate",
+    key: "gmtUpdate",
+    render: (text, record) => (<span>{formatTime(text)}</span>)
   },
   {
     title: "操作",
     dataIndex: "others",
-    key: "others",
-    render: (text, record) => {
-      return (
-        <span>
-          <a href="/ciproject/detail">详情</a>
-          <Divider type="vertical" />
-          <a href="javascript:;">编辑</a>
-          <Divider type="vertical" />
-          <a href="javascript:;">删除</a>
-        </span>
-      );
-    }
+    key: "others"
   }
 ];
 

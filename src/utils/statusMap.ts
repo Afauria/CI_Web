@@ -1,4 +1,4 @@
-export const modulesBuildStatusMap = {
+export const moduleBuildStatusMap = {
   // 最后一次构建状态
   1: "尚未构建",
   2: "正在构建",

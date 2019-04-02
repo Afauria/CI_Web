@@ -35,6 +35,7 @@ class CIModule extends React.Component<any> {
     buildModalVisible: false,
     version: ""
   };
+  
   static async getInitialProps({ req, store }) {
     const data = await request.get("api/module/list", {
       pageNum: PAGE_NUM,
@@ -42,10 +43,6 @@ class CIModule extends React.Component<any> {
     });
     store.dispatch(getModuleListSuccess(data));
     return {};
-  }
-
-  constructor(props) {
-    super(props);
   }
 
   componentDidMount() {
