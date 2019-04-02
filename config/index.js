@@ -3,8 +3,8 @@ const env = process.env.NEXT_ENV;
 const config = {
   base: {
     assetPrefix: '',
-    api: 'http://localhost:8080',
-    socketUrl: 'http://192.168.13.218:4918'
+    api: 'http://localhost:8083',
+    socketUrl: 'http://localhost:8084'
     // api: 'https://appci-back.tuya-inc.top:7788',
     // socketUrl: 'https://appci-back.tuya-inc.top:7788',
   },

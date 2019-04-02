@@ -13,16 +13,16 @@ class MyApp extends App {
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
     }
-    return { pageProps };
+    return { pageProps, socketUrl: publicRuntimeConfig.socketUrl  };
   }
 
   render() {
-    const { Component, pageProps, store } = this.props;
+    const { Component, pageProps, store, socketUrl } = this.props;
     // console.log(store.getState());
     return (
       <Container>
         <Provider store={store}>
-          <Component {...pageProps} />
+          <Component {...pageProps} socketUrl={socketUrl}/>
         </Provider>
       </Container>
     );

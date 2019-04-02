@@ -2,10 +2,8 @@ export const modulesBuildStatusMap = {
   // 最后一次构建状态
   1: "尚未构建",
   2: "正在构建",
-  3: "源码构建成功",
-  4: "源码构建失败",
-  5: "组件集成成功",
-  6: "组件集成失败"
+  3: "构建成功",
+  4: "构建失败"
 };
 
 export const projectIntegrateStatusMap = {
@@ -16,7 +14,7 @@ export const projectIntegrateStatusMap = {
 };
 
 export const projectBuildStatusMap = {
-  1: "还没有构建过",
+  1: "尚未构建",
   2: "正在构建",
   3: "构建成功",
   4: "构建失败"

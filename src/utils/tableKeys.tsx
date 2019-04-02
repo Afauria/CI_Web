@@ -41,13 +41,13 @@ export const ciModuleColumns = [
   },
   {
     title: "当前版本",
-    dataIndex: "version",
-    key: "version"
+    dataIndex: "curVersion",
+    key: "curVersion"
   },
   {
-    title: "Group",
-    dataIndex: "group",
-    key: "group"
+    title: "工程目录",
+    dataIndex: "catalog",
+    key: "catalog"
   },
   {
     title: "状态",

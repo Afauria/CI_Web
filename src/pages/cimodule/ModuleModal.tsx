@@ -61,6 +61,16 @@ class ModuleModal extends PureComponent<IProps> {
         <Form.Item
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 18 }}
+          label="工程目录"
+        >
+          {getFieldDecorator("catalog", {
+            rules: [{ required: true, message: "工程目录不能为空" }],
+            initialValue: record.catalog
+          })(<Input placeholder="请输入" />)}
+        </Form.Item>
+        <Form.Item
+          labelCol={{ span: 4 }}
+          wrapperCol={{ span: 18 }}
           label="组件仓库"
         >
           {getFieldDecorator("repo", {

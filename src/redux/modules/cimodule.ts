@@ -1,5 +1,5 @@
 import { createAction, handleActions } from "redux-actions";
-import { merge, of, from } from "rxjs";
+import { from } from "rxjs";
 import { catchError, mergeMap, map } from "rxjs/operators";
 import { request } from "../../lib/fetch";
 import { ofType } from "redux-observable";
@@ -72,6 +72,12 @@ export const removeModule = (data, success, error) =>
 
 export const modifyModule = (data, success, error) =>
   postPipe("api/module/modify", data, success, error);
+
+export const buildModule = (data, success, error) =>
+  postPipe("api/module/build", data, success, error);
+
+export const searchBuildVersion = (data, success, error) =>
+  postPipe("api/module/searchVersion", data, success, error);
   
 const postPipe = (url, data, success, error) => {
   from(request.post(url, data))
@@ -87,5 +93,4 @@ const postPipe = (url, data, success, error) => {
 
 export const epics = [
   getModuleList$
-  // addModule$,
 ];

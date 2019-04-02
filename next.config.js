@@ -5,6 +5,7 @@ const withTypeScript = require('@zeit/next-typescript')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack')
 const path = require('path')
+const c = require('./config')
 // fix: prevents error when .css files are required by node
 // 不加这个会报错，可能是和withCss有关
 // E:\CiProject\ci_web\node_modules\antd\lib\style\index.css:6
@@ -15,6 +16,10 @@ if (typeof require !== 'undefined') {
 }
 //因为内部webpack有自定义的sass-loader，因此外面不能再套
 module.exports = withTypeScript(withCss({
+  publicRuntimeConfig: {
+    isDev: !process.env.NEXT_ENV,
+    ...c
+  },
   webpack(config, options) {
     const {
       dir,
