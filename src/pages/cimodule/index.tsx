@@ -46,7 +46,7 @@ class CIModule extends React.Component<any> {
   }
 
   componentDidMount() {
-    const socket = io(this.props.socketUrl + "?clientId=2", {
+    const socket = io(this.props.socketUrl + "?clientId=1", {
       transports: ["websocket"]
     });
 
@@ -191,9 +191,10 @@ class CIModule extends React.Component<any> {
   renderTable() {
     const { total, pageSize, pageNum, list } = this.props.ciModule;
     const pagination = { total, current: pageNum, pageSize: pageSize };
-    list.forEach((item, index) => {
-      item.key = index;
-    });
+    // React中会警告每项需要有一个唯一的key值，Table组件可以通过rowKey指定某一个属性为key值
+    // list.forEach((item, index) => {
+    //   item.key = index;
+    // });
     const columns = this.generateColumns();
     return (
       <Table
@@ -208,6 +209,7 @@ class CIModule extends React.Component<any> {
             })
           );
         }}
+        rowKey="name"
       />
     );
   }

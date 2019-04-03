@@ -116,8 +116,8 @@ export const ciProjectColumns = [
 export const projectModuleColumns = [
   {
     title: "组件名称",
-    dataIndex: "name",
-    key: "name"
+    dataIndex: "moduleName",
+    key: "moduleName"
   },
   {
     title: "组件版本",
@@ -127,15 +127,6 @@ export const projectModuleColumns = [
   {
     title: "操作",
     dataIndex: "others",
-    key: "others",
-    render: (text, record) => {
-      return (
-        <span>
-          <a href="javascript:;">编辑</a>
-          <Divider type="vertical" />
-          <a href="javascript:;">删除</a>
-        </span>
-      );
-    }
+    key: "others"
   }
 ];

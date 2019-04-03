@@ -7,7 +7,7 @@ export const moduleBuildStatusMap = {
 };
 
 export const projectIntegrateStatusMap = {
-  1: "还没有集成过",
+  1: "尚未集成",
   2: "正在集成",
   3: "集成成功",
   4: "集成失败"

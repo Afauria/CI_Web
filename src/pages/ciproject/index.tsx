@@ -78,7 +78,9 @@ class CIProject extends React.Component<any> {
         render: (text, record) => {
           return (
             <span>
-              <a href="/ciproject/detail">详情</a>
+              <a href={`/ciproject/detail?projectId=${record.projectId}`}>
+                详情
+              </a>
               <Divider type="vertical" />
               <a
                 href="javascript:;"
@@ -103,9 +105,7 @@ class CIProject extends React.Component<any> {
   renderTable() {
     const { total, pageSize, pageNum, list } = this.props.ciProject;
     const pagination = { total, current: pageNum, pageSize: pageSize };
-    list.forEach((item, index) => {
-      item.key = index;
-    });
+
     const columns = this.generateColumns();
     return (
       <Table
@@ -120,6 +120,7 @@ class CIProject extends React.Component<any> {
             })
           );
         }}
+        rowKey="name"
       />
     );
   }

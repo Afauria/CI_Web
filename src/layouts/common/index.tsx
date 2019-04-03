@@ -11,7 +11,7 @@ export class CommonLayout extends React.Component<any, any> {
     collapsed: false
   };
 
-  toggle = () => {
+  toggleSider = () => {
     this.setState({
       collapsed: !this.state.collapsed
     });
@@ -27,7 +27,7 @@ export class CommonLayout extends React.Component<any, any> {
         <Icon
           className={styles.headerTrigger}
           type={this.state.collapsed ? "menu-unfold" : "menu-fold"}
-          onClick={this.toggle}
+          onClick={this.toggleSider}
         />
       </Header>
     );
@@ -59,12 +59,16 @@ export class CommonLayout extends React.Component<any, any> {
     const { sidemenu, activeSiderMenu } = this.props;
     return (
       <Sider
-        trigger={null}
+        // 设置为null可以自定义触发器，但是需要自己写响应式效果和按钮，默认触发器在底部
+        // trigger={null}
         collapsible
         collapsed={this.state.collapsed}
-        // onCollapse={this.onCollapse}
+        onCollapse={this.onCollapse}
         width={256}
+        //支持响应式布局
         breakpoint="lg"
+        //折叠宽度设置为0有特殊展开按钮
+        // collapsedWidth="0"
       >
         <div className={styles.logo}>
           <a href="/">

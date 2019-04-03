@@ -22,18 +22,17 @@ const InfoItem = ({ label, value }) => {
 };
 export default class ProjectInfo extends React.Component<any> {
   render() {
-    const title = "项目详情";
     const gutter = 32;
     const { info } = this.props;
     return (
       <div>
-        <div className={styles.infoTitle}>{title}</div>
+        <div className={styles.infoTitle}>项目详情</div>
         <Row gutter={gutter}>
-          <InfoItem label="项目 ID:" value={info.id} />
+          <InfoItem label="项目 ID:" value={info.projectId} />
 
           <InfoItem label="项目名称" value={info.name} />
 
-          <InfoItem label="项目描述" value={info.desc} />
+          <InfoItem label="项目描述" value={info.descr} />
 
           <InfoItem label="项目分支" value={info.branch} />
 

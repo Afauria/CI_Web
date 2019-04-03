@@ -77,7 +77,7 @@ export const buildModule = (data, success, error) =>
   postPipe("api/module/build", data, success, error);
 
 export const searchBuildVersion = (data, success, error) =>
-  postPipe("api/module/searchVersion", data, success, error);
+  postPipe("api/module/searchNextVersion", data, success, error);
   
 const postPipe = (url, data, success, error) => {
   from(request.post(url, data))
