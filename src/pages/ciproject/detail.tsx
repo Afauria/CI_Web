@@ -60,14 +60,15 @@ class Detail extends React.Component<any> {
 
   renderActions() {
     return (
+      <div className={styles.actions}>
         <Button
-        style={{ width: '100%', marginTop: 16, marginBottom: 8 }}
           icon="plus"
-          type="dashed"
+          type="primary"
           onClick={() => this.handleModalVisible(true)}
         >
-          新增组件
+          新建
         </Button>
+      </div>
     );
   }
 
@@ -85,11 +86,11 @@ class Detail extends React.Component<any> {
           }
         ]}
       >
-        
+        {this.renderActions()}
         <ProjectInfo info={projectInfo} />
         <Divider style={{ marginBottom: 32 }} />
-        <ProjectModule modules={projectInfo.modules} />
-        {this.renderActions()}
+        <ProjectModule projectId={projectInfo.projectId}/>
+        
       </AppCIContainer>
     );
   }

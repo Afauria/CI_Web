@@ -9,7 +9,7 @@ import {
   projectIntegrateStatusMap
 } from "../../utils/statusMap";
 import { formatTime } from "../../utils/timeFormat";
-//超小屏显示一列，小屏显示2列，中屏显示3列，大屏显示4列
+//超小屏显示一列，小屏显示1列，中屏显示2列，大屏显示3列
 const responsive = { xs: 24, sm: 24, md: 12, lg: 8 };
 const InfoItem = ({ label, value }) => {
   return (
@@ -49,6 +49,12 @@ export default class ProjectInfo extends React.Component<any> {
           />
 
           <InfoItem label="上次操作时间" value={formatTime(info.gmtUpdate)} />
+
+          
+          <InfoItem
+            label="仓库"
+            value={info.repo}
+          />
         </Row>
       </div>
     );

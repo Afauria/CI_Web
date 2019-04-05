@@ -42,6 +42,16 @@ const getProjectInfo$ = action$ =>
     )
   );
 
+
+export const searchProjectModules = (data, success, error) =>
+  postPipe("api/project/modules/list", data, success, error);
+
+export const addProjectModule =  (data, success, error) =>
+  postPipe("api/project/modules/add", data, success, error);
+
+export const removeProjectModule =  (data, success, error) =>
+  postPipe("api/project/modules/remove", data, success, error);
+
 export const buildProject = (data, success, error) =>
   postPipe("api/project/build", data, success, error);
 
@@ -51,8 +61,8 @@ export const searchBuildVersion = (data, success, error) =>
 export const searchModuleVersions = (data, success, error) =>
   postPipe("api/module/searchVersions", data, success, error);
 
-export const modifyProjectModuleVersion = (data, success, error) =>
-    postPipe("api/project/modifyModuleVersion", data, success, error);
+export const searchModulesName = (data, success, error) =>
+  postPipe("api/module/searchEnableModulesName", data, success, error);
 
 const postPipe = (url, data, success, error) => {
   from(request.post(url, data))
