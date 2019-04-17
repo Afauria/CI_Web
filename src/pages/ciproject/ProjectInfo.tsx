@@ -11,12 +11,15 @@ import {
 import { formatTime } from "../../utils/timeFormat";
 //超小屏显示一列，小屏显示1列，中屏显示2列，大屏显示3列
 const responsive = { xs: 24, sm: 24, md: 12, lg: 8 };
-const InfoItem = ({ label, value }) => {
+const InfoItem = ({ label, value, color = "" }) => {
+  const colorStyle = { color: color };
   return (
     // 栅格布局，24等分，Col在Row里面
     <Col {...responsive}>
       <div className={styles.infoLabel}>{label}</div>
-      <div className={styles.infoValue}>{value}</div>
+      <div className={styles.infoValue} style={colorStyle}>
+        {value}
+      </div>
     </Col>
   );
 };
@@ -41,6 +44,13 @@ export default class ProjectInfo extends React.Component<any> {
           <InfoItem
             label="构建状态"
             value={projectBuildStatusMap[info.buildStatus]}
+            color={
+              info.buildStatus == 4
+                ? "red"
+                : info.buildStatus == 2
+                ? "blue"
+                : ""
+            }
           />
 
           <InfoItem
@@ -50,11 +60,7 @@ export default class ProjectInfo extends React.Component<any> {
 
           <InfoItem label="上次操作时间" value={formatTime(info.gmtUpdate)} />
 
-          
-          <InfoItem
-            label="仓库"
-            value={info.repo}
-          />
+          <InfoItem label="仓库" value={info.repo} />
         </Row>
       </div>
     );

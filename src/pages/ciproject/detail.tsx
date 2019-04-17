@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import AppCIContainer from "../../layouts/AppCIContainer";
-import { Divider, notification, Button } from "antd";
+import { Divider, notification, Button, Popconfirm, message } from "antd";
 import { ciProjectColumns } from "../../utils/tableKeys";
 import { projectinfo } from "../mockData";
 import ProjectInfo from "./ProjectInfo";
@@ -13,6 +13,7 @@ import {
 } from "../../redux/modules/projectdetail";
 import { request } from "../../lib/fetch";
 import styles from "../index.scss";
+import { buildProject } from "../../redux/modules/ciproject";
 
 class Detail extends React.Component<any> {
   static async getInitialProps({ req, store, query }) {
@@ -57,16 +58,46 @@ class Detail extends React.Component<any> {
   };
 
   handleModalVisible = visible => {};
-
+  handleBuildProject = () => {
+    const { projectInfo } = this.props;
+    buildProject(
+      { projectId: projectInfo.projectId },
+      resp => {
+        message.success("开始构建!");
+        this.handleRefresh();
+      },
+      err => {
+        message.error(err);
+      }
+    );
+  };
+  handleIntegrateProject = () => {};
   renderActions() {
+    const { projectInfo } = this.props;
     return (
       <div className={styles.actions}>
-        <Button
-          icon="plus"
-          type="primary"
-          onClick={() => this.handleModalVisible(true)}
+        <Popconfirm
+          title="确定构建"
+          onConfirm={() => {
+            this.handleBuildProject();
+          }}
         >
-          新建
+          <Button className={styles["actions-btn"]} type="primary">
+            构建
+          </Button>
+        </Popconfirm>
+        <Popconfirm
+          title="确定集成"
+          onConfirm={() => {
+            this.handleIntegrateProject();
+          }}
+        >
+          <Button className={styles["actions-btn"]} type="primary">
+            集成
+          </Button>
+        </Popconfirm>
+        <Button className={styles["actions-btn"]} type="primary">
+          <a href={`/ciproject/history?projectId=${projectInfo.projectId}`}>构建历史</a>
         </Button>
       </div>
     );
@@ -89,8 +120,7 @@ class Detail extends React.Component<any> {
         {this.renderActions()}
         <ProjectInfo info={projectInfo} />
         <Divider style={{ marginBottom: 32 }} />
-        <ProjectModule projectId={projectInfo.projectId}/>
-        
+        <ProjectModule projectId={projectInfo.projectId} />
       </AppCIContainer>
     );
   }

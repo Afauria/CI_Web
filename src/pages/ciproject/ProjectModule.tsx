@@ -1,17 +1,9 @@
 import React from "react";
-import {
-  Table,
-  Divider,
-  Popconfirm,
-  Select,
-  message,
-  Button,
-  Input
-} from "antd";
+import { Table, Divider, Popconfirm, Select, message, Button } from "antd";
 import styles from "../index.scss";
 import { projectModuleColumns } from "../../utils/tableKeys";
-import { data } from "../mockData";
 import mergeWithIndex from "../../utils/mergeWithIndex";
+import * as _ from "lodash";
 import {
   searchModuleVersions,
   searchModulesName,
@@ -19,11 +11,15 @@ import {
   addProjectModule,
   removeProjectModule
 } from "../../redux/modules/projectdetail";
+import { linkTypeMap } from "../../utils/statusMap";
 export interface IProps {
   projectId;
 }
 export default class ProjectModule extends React.Component<IProps> {
-  
+  linkTypeOptions = Object.keys(linkTypeMap).map(item => {
+    return <Select.Option key={item}>{linkTypeMap[+item]}</Select.Option>;
+  });
+
   state = {
     versionOptions: [],
     modules: [],
@@ -40,7 +36,8 @@ export default class ProjectModule extends React.Component<IProps> {
     moduleId: 0,
     moduleBuildId: 0,
     editable: true,
-    isNew: true
+    isNew: true,
+    type: 1
   };
   constructor(props) {
     super(props);
@@ -104,6 +101,13 @@ export default class ProjectModule extends React.Component<IProps> {
     this.setState({ modules });
   };
 
+  handleChangeLinkType = (linkType, option, key) => {
+    const { modules } = this.state;
+    const target = this.getRowByKey(modules, key);
+    target.type = linkType;
+    this.setState({ modules });
+  };
+
   handleSearchVersion = moduleId => {
     searchModuleVersions(
       { moduleId },
@@ -131,14 +135,14 @@ export default class ProjectModule extends React.Component<IProps> {
 
   doAddModule = (moduleBuildId, key) => {
     const { projectId } = this.props;
+    const { modules } = this.state;
+    const target = this.getRowByKey(modules, key);
     if (moduleBuildId == 0) {
       message.error("请填写完整的组件信息。");
     } else {
       addProjectModule(
-        { projectId, moduleBuildId },
+        { projectId, moduleBuildId, type: +target.type },
         resp => {
-          const { modules } = this.state;
-          const target = this.getRowByKey(modules, key);
           target.isNew = false;
           this.setState({ modules });
           this.handleRefresh();
@@ -153,7 +157,7 @@ export default class ProjectModule extends React.Component<IProps> {
 
   handleEdit = key => {
     const { modules } = this.state;
-    const target = this.getRowByKey(modules,key);
+    const target = this.getRowByKey(modules, key);
     target.editable = true;
     this.setState({ modules });
   };
@@ -224,6 +228,26 @@ export default class ProjectModule extends React.Component<IProps> {
         }
       },
       2: {
+        render: (text, record) => {
+          if (record.editable) {
+            return (
+              <Select
+                style={{ width: "50%" }}
+                placeholder="Please select"
+                defaultValue={linkTypeMap[record.type]}
+                onChange={(linkType, option) =>
+                  this.handleChangeLinkType(linkType, option, record.key)
+                }
+              >
+                {this.linkTypeOptions}
+              </Select>
+            );
+          } else {
+            return <div>{linkTypeMap[text]}</div>;
+          }
+        }
+      },
+      3: {
         render: (text, record) => {
           return (
             <span>

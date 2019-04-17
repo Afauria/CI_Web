@@ -1,6 +1,6 @@
 import { Divider } from "antd";
 import { moduleBuildStatusMap, projectBuildStatusMap } from "./statusMap";
-import {formatTime} from './timeFormat'
+import { formatTime } from "./timeFormat";
 export const user = [
   {
     title: "昵称",
@@ -59,7 +59,7 @@ export const ciModuleColumns = [
     title: "上次操作时间",
     dataIndex: "gmtUpdate",
     key: "gmtUpdate",
-    render: (text, record) => (<span>{formatTime(text)}</span>)
+    render: (text, record) => <span>{formatTime(text)}</span>
   },
   {
     title: "操作",
@@ -104,7 +104,7 @@ export const ciProjectColumns = [
     title: "上次操作时间",
     dataIndex: "gmtUpdate",
     key: "gmtUpdate",
-    render: (text, record) => (<span>{formatTime(text)}</span>)
+    render: (text, record) => <span>{formatTime(text)}</span>
   },
   {
     title: "操作",
@@ -123,6 +123,41 @@ export const projectModuleColumns = [
     title: "组件版本",
     dataIndex: "version",
     key: "version"
+  },
+  {
+    title: "关联类型",
+    dataIndex: "type",
+    key: "type"
+  },
+  {
+    title: "操作",
+    dataIndex: "others",
+    key: "others"
+  }
+];
+
+export const ciProjectHistoryColumns = [
+  {
+    title: "构建Number",
+    dataIndex: "buildNum",
+    key: "buildNum"
+  },
+  {
+    title: "构建状态",
+    dataIndex: "buildStatus",
+    key: "buildStatus",
+    render: (text, record) => <span style={{color:text==4?"red":""}}>{projectBuildStatusMap[text]}</span>
+  },
+  {
+    title: "构建时间",
+    dataIndex: "gmtCreate",
+    key: "gmtCreate",
+    render: (text, record) => <span>{formatTime(text)}</span>
+  },
+  {
+    title: "构建信息",
+    dataIndex: "message",
+    key: "message"
   },
   {
     title: "操作",

@@ -8,6 +8,12 @@ export const getProjectInfoSuccess = createAction("getProjectInfoSuccess");
 export const getProjectInfo = createAction("getProjectInfo");
 const getProjectInfoError = createAction("getProjectInfoError");
 
+export const getProjectHistorySuccess = createAction(
+  "getProjectHistorySuccess"
+);
+export const getProjectHistory = createAction("getProjectHistory");
+const getProjectHistoryError = createAction("getProjectHistoryError");
+
 /*
  * reducer 相关
  */
@@ -24,8 +30,22 @@ const projectInfo = handleActions(
   {}
 );
 
+const projectHistory = handleActions(
+  {
+    getProjectHistorySuccess: (state, action) => {
+      return action.payload;
+    },
+
+    getProjectHistoryError: () => {
+      return { data: [] };
+    }
+  },
+  {}
+);
+
 export const reducers = {
-  projectInfo
+  projectInfo,
+  projectHistory
 };
 
 /*
@@ -42,14 +62,24 @@ const getProjectInfo$ = action$ =>
     )
   );
 
+const getProjectHistory$ = action$ =>
+  action$.pipe(
+    ofType(getProjectHistory),
+    mergeMap(action =>
+      from(request.get("api/project/info/" + action.payload+"/history")).pipe(
+        map(resp => getProjectHistorySuccess(resp)),
+        catchError(err => getProjectHistoryError(err))
+      )
+    )
+  );
 
 export const searchProjectModules = (data, success, error) =>
   postPipe("api/project/modules/list", data, success, error);
 
-export const addProjectModule =  (data, success, error) =>
+export const addProjectModule = (data, success, error) =>
   postPipe("api/project/modules/add", data, success, error);
 
-export const removeProjectModule =  (data, success, error) =>
+export const removeProjectModule = (data, success, error) =>
   postPipe("api/project/modules/remove", data, success, error);
 
 export const buildProject = (data, success, error) =>
@@ -64,6 +94,9 @@ export const searchModuleVersions = (data, success, error) =>
 export const searchModulesName = (data, success, error) =>
   postPipe("api/module/searchEnableModulesName", data, success, error);
 
+export const searchProjectBuildReport= (data, success, error) =>
+  postPipe("api/project/info/build", data, success, error);
+
 const postPipe = (url, data, success, error) => {
   from(request.post(url, data))
     .pipe(
@@ -76,4 +109,4 @@ const postPipe = (url, data, success, error) => {
     .subscribe();
 };
 
-export const epics = [getProjectInfo$];
+export const epics = [getProjectInfo$, getProjectHistory$];

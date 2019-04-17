@@ -20,9 +20,7 @@ export const projectBuildStatusMap = {
   4: "构建失败"
 };
 
-export const componentTypeMap = {
-  1: "新增开发组件",
-  2: "新增定制组件",
-  3: "新增正式组件",
-  4: "新增删除组件"
+export const linkTypeMap = {
+  1: "新增组件",
+  2: "删除组件"
 };
