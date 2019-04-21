@@ -1,37 +1,37 @@
 import React from "react";
 import { connect } from "react-redux";
 import AppCIContainer from "../../layouts/AppCIContainer";
-import { Table, message, Modal, Divider } from "antd";
-import { ciProjectHistoryColumns } from "../../utils/tableKeys";
+import { Table, message, Modal } from "antd";
+import { ciModuleHistoryColumns } from "../../utils/tableKeys";
 import mergeWithIndex from "../../utils/mergeWithIndex";
 import { request } from "../../lib/fetch";
+import { searchModuleBuildReport } from "../../redux/modules/cimodule";
 import {
-  getProjectHistorySuccess,
-  getProjectHistory,
-  searchProjectBuildReport
-} from "../../redux/modules/projectdetail";
+  getModuleHistory,
+  getModuleHistorySuccess
+} from "../../redux/modules/cimodule";
 
 const PAGE_NUM = 1;
 const PAGE_SIZE = 10;
-class ProjectBuildHistory extends React.Component<any> {
+class ModuleBuildHistory extends React.Component<any> {
   static async getInitialProps({ req, store, query }) {
-    const data = await request.get(`api/project/info/history`, {
-      projectId: query.projectId,
+    const data = await request.get(`api/module/history`, {
+      moduleId: query.moduleId,
       pageNum: PAGE_NUM,
       pageSize: PAGE_SIZE
     });
-    store.dispatch(getProjectHistorySuccess(data));
-    return { projectId: query.projectId };
+    store.dispatch(getModuleHistorySuccess(data));
+    return { moduleId: query.moduleId };
   }
 
   handleRefresh = () => {
-    const { projectId } = this.props;
-    const { pageSize, pageNum } = this.props.projectHistory;
-    this.props.dispatch(getProjectHistory({ projectId, pageSize, pageNum }));
+    const { pageSize, pageNum } = this.props.moduleHistory;
+    const { moduleId } = this.props;
+    this.props.dispatch(getModuleHistory({ moduleId, pageSize, pageNum }));
   };
 
   handleOpenReport = (buildStatus, buildId, buildNum) => {
-    searchProjectBuildReport(
+    searchModuleBuildReport(
       { buildId },
       resp => {
         if (buildStatus == 3) {
@@ -57,8 +57,8 @@ class ProjectBuildHistory extends React.Component<any> {
   };
 
   generateColumns() {
-    return mergeWithIndex(ciProjectHistoryColumns, {
-      5: {
+    return mergeWithIndex(ciModuleHistoryColumns, {
+      4: {
         render: (text, record) => {
           return (
             <span>
@@ -67,23 +67,13 @@ class ProjectBuildHistory extends React.Component<any> {
                 onClick={() =>
                   this.handleOpenReport(
                     record.buildStatus,
-                    record.projectBuildId,
+                    record.moduleBuildId,
                     record.buildNum
                   )
                 }
               >
                 查看日志
               </a>
-              {record.type == 2 && record.buildStatus == 3 ? (
-                <Divider type="vertical" />
-              ) : (
-                ""
-              )}
-              {record.type == 2 && record.buildStatus == 3 ? (
-                <a href={record.downloadUrl} target="_blank">安装包地址</a>
-              ) : (
-                ""
-              )}
             </span>
           );
         }
@@ -92,8 +82,8 @@ class ProjectBuildHistory extends React.Component<any> {
   }
 
   renderTable() {
-    const { total, pageSize, pageNum, list } = this.props.projectHistory;
-    const { projectId } = this.props;
+    const { total, pageSize, pageNum, list } = this.props.moduleHistory;
+    const { moduleId } = this.props;
     const pagination = { total, current: pageNum, pageSize: pageSize };
     const columns = this.generateColumns();
     return (
@@ -103,34 +93,29 @@ class ProjectBuildHistory extends React.Component<any> {
         pagination={pagination}
         onChange={pagination => {
           this.props.dispatch(
-            getProjectHistory({
-              projectId,
+            getModuleHistory({
+              moduleId,
               pageNum: pagination.current,
               pageSize: pagination.pageSize
             })
           );
         }}
-        rowKey="projectBuildId"
+        rowKey="moduleBuildId"
       />
     );
   }
 
   render() {
-    const { projectId } = this.props;
+    const { moduleId } = this.props;
     return (
       <AppCIContainer
-        activeSiderMenu="ciprojectdetail"
+        activeSiderMenu="cimodule"
         breadcrumb={[
-          { key: 1, text: "项目管理", link: "/ciproject" },
+          { key: 1, text: "组件管理", link: "/cimodule" },
           {
             key: 2,
-            text: "项目详情",
-            link: `/ciproject/detail?projectId=${projectId}`
-          },
-          {
-            key: 3,
-            text: "项目构建历史",
-            link: `/ciproject/history?projectId=${projectId}`
+            text: "组件构建历史",
+            link: `/cimodule/history?moduleId=${moduleId}`
           }
         ]}
       >
@@ -140,4 +125,4 @@ class ProjectBuildHistory extends React.Component<any> {
   }
 }
 
-export default connect(x => x)(ProjectBuildHistory);
+export default connect(x => x)(ModuleBuildHistory);

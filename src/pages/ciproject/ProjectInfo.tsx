@@ -56,6 +56,13 @@ export default class ProjectInfo extends React.Component<any> {
           <InfoItem
             label="集成状态"
             value={projectIntegrateStatusMap[info.integrateStatus]}
+            color={
+              info.integrateStatus == 4
+                ? "red"
+                : info.integrateStatus == 2
+                ? "blue"
+                : ""
+            }
           />
 
           <InfoItem label="上次操作时间" value={formatTime(info.gmtUpdate)} />

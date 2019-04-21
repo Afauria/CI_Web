@@ -181,6 +181,8 @@ class CIModule extends React.Component<any> {
               >
                 <a href="javascript:;">删除</a>
               </Popconfirm>
+              <Divider type="vertical" />
+              <a href={`/cimodule/history?moduleId=${record.moduleId}`}>查看构建历史</a>
             </span>
           );
         }

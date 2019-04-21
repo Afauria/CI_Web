@@ -1,6 +1,12 @@
 import { Divider } from "antd";
-import { moduleBuildStatusMap, projectBuildStatusMap } from "./statusMap";
+import {
+  moduleBuildStatusMap,
+  projectBuildStatusMap,
+  projectBuildTypeMap,
+  projectIntegrateStatusMap
+} from "./statusMap";
 import { formatTime } from "./timeFormat";
+import renderEmpty from "antd/lib/config-provider/renderEmpty";
 export const user = [
   {
     title: "昵称",
@@ -53,7 +59,11 @@ export const ciModuleColumns = [
     title: "状态",
     dataIndex: "buildStatus",
     key: "buildStatus",
-    render: (text, record) => <span>{moduleBuildStatusMap[text]}</span>
+    render: (text, record) => (
+      <span style={{ color: text == 4 ? "red" : "" }}>
+        {moduleBuildStatusMap[text]}
+      </span>
+    )
   },
   {
     title: "上次操作时间",
@@ -143,10 +153,20 @@ export const ciProjectHistoryColumns = [
     key: "buildNum"
   },
   {
+    title: "构建类型",
+    dataIndex: "type",
+    key: "type",
+    render: (text, record) => <span>{projectBuildTypeMap[text]}</span>
+  },
+  {
     title: "构建状态",
     dataIndex: "buildStatus",
     key: "buildStatus",
-    render: (text, record) => <span style={{color:text==4?"red":""}}>{projectBuildStatusMap[text]}</span>
+    render: (text, record) => (
+      <span style={{ color: text == 4 ? "red" : "" }}>
+        {record.type==1?projectBuildStatusMap[text]:projectIntegrateStatusMap[text]}
+      </span>
+    )
   },
   {
     title: "构建时间",
@@ -165,3 +185,37 @@ export const ciProjectHistoryColumns = [
     key: "others"
   }
 ];
+
+export const ciModuleHistoryColumns = [
+  {
+    title: "构建Number",
+    dataIndex: "buildNum",
+    key: "buildNum"
+  },
+  {
+    title: "构建状态",
+    dataIndex: "buildStatus",
+    key: "buildStatus",
+    render: (text, record) => (
+      <span style={{ color: text == 4 ? "red" : "" }}>
+        {moduleBuildStatusMap[text]}
+      </span>
+    )
+  },
+  {
+    title: "构建时间",
+    dataIndex: "gmtCreate",
+    key: "gmtCreate",
+    render: (text, record) => <span>{formatTime(text)}</span>
+  },
+  {
+    title: "构建信息",
+    dataIndex: "message",
+    key: "message"
+  },
+  {
+    title: "操作",
+    dataIndex: "others",
+    key: "others"
+  }
+]

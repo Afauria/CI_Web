@@ -24,3 +24,7 @@ export const linkTypeMap = {
   1: "新增组件",
   2: "删除组件"
 };
+export const projectBuildTypeMap = {
+  1: "构建",
+  2: "集成"
+}

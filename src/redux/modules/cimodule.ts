@@ -7,7 +7,9 @@ import { ofType } from "redux-observable";
 export const getModuleListSuccess = createAction("getModuleListSuccess");
 export const getModuleList = createAction("getModuleList");
 const getModuleListError = createAction("getModuleListError");
-
+export const getModuleHistorySuccess = createAction("getModuleHistorySuccess");
+export const getModuleHistory = createAction("getModuleHistory");
+const getModuleHistoryError = createAction("getModuleHistoryError");
 /*
  * reducer 相关
  */
@@ -24,8 +26,22 @@ const ciModule = handleActions(
   {}
 );
 
+const moduleHistory = handleActions(
+  {
+    getModuleHistorySuccess: (state, action) => {
+      return action.payload;
+    },
+
+    getModuleHistoryError: () => {
+      return { data: [] };
+    }
+  },
+  {}
+);
+
 export const reducers = {
-  ciModule
+  ciModule,
+  moduleHistory
 };
 
 /*
@@ -42,6 +58,16 @@ const getModuleList$ = action$ =>
     )
   );
 
+const getModuleHistory$ = action$ =>
+  action$.pipe(
+    ofType(getModuleHistory),
+    mergeMap(action =>
+      from(request.get("api/module/history", action.payload)).pipe(
+        map(resp => getModuleHistorySuccess(resp)),
+        catchError(err => getModuleHistoryError(err))
+      )
+    )
+  );
 // const addModule$ = action$ => action$.ofType('addModule')
 //   .mergeMap(action => {
 //     const { success, error } = action?.meta;
@@ -78,7 +104,10 @@ export const buildModule = (data, success, error) =>
 
 export const searchBuildVersion = (data, success, error) =>
   postPipe("api/module/searchNextVersion", data, success, error);
-  
+
+export const searchModuleBuildReport= (data, success, error) =>
+  postPipe("api/module/buildReport", data, success, error);
+
 const postPipe = (url, data, success, error) => {
   from(request.post(url, data))
     .pipe(
@@ -91,6 +120,4 @@ const postPipe = (url, data, success, error) => {
     .subscribe();
 };
 
-export const epics = [
-  getModuleList$
-];
+export const epics = [getModuleList$, getModuleHistory$];

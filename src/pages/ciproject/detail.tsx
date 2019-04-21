@@ -9,7 +9,8 @@ import ProjectModule from "./ProjectModule";
 import * as io from "socket.io-client";
 import {
   getProjectInfoSuccess,
-  getProjectInfo
+  getProjectInfo,
+  integrateProject
 } from "../../redux/modules/projectdetail";
 import { request } from "../../lib/fetch";
 import styles from "../index.scss";
@@ -57,7 +58,6 @@ class Detail extends React.Component<any> {
     this.props.dispatch(getProjectInfo(this.props.projectInfo.projectId));
   };
 
-  handleModalVisible = visible => {};
   handleBuildProject = () => {
     const { projectInfo } = this.props;
     buildProject(
@@ -71,7 +71,21 @@ class Detail extends React.Component<any> {
       }
     );
   };
-  handleIntegrateProject = () => {};
+
+  handleIntegrateProject = () => {
+    const { projectInfo } = this.props;
+    integrateProject(
+      { projectId: projectInfo.projectId },
+      resp => {
+        message.success("开始集成!");
+        this.handleRefresh();
+      },
+      err => {
+        message.error(err);
+      }
+    );
+  };
+  
   renderActions() {
     const { projectInfo } = this.props;
     return (
