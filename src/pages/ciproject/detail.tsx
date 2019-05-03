@@ -121,7 +121,7 @@ class Detail extends React.Component<any> {
     const { projectInfo } = this.props;
     return (
       <AppCIContainer
-        activeSiderMenu="ciprojectdetail"
+        activeSiderMenu="ciproject"
         breadcrumb={[
           { key: 1, text: "项目管理", link: "/ciproject" },
           {

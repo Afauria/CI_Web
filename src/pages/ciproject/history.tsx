@@ -119,7 +119,7 @@ class ProjectBuildHistory extends React.Component<any> {
     const { projectId } = this.props;
     return (
       <AppCIContainer
-        activeSiderMenu="ciprojectdetail"
+        activeSiderMenu="ciproject"
         breadcrumb={[
           { key: 1, text: "项目管理", link: "/ciproject" },
           {
